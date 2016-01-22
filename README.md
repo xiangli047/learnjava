@@ -1,0 +1,3 @@
+# leetcode
+
+for leetcode questions
