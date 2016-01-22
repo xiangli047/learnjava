@@ -1,10 +1,42 @@
 Maximum Depth of Binary Tree
 
 public class Solution {
+//recursive
     public int maxDepth(TreeNode root) {
         if(root == null) return 0;
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
         return Math.max(left,right)+1;
+    }
+    
+    //iterator
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        int counter = 0;
+        int curNum = 1; //count current level nodes left
+        int nextNum = 0;//count next level nodes amount
+        LinkedList<TreeNode> q = new LinkedList<TreeNode>();
+        
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode n = q.poll();
+            curNum--;
+            if(n.left != null){
+                nextNum++;
+                q.add(n.left);
+            }
+            if(n.right != null){
+                nextNum++;
+                q.add(n.right);
+            }
+            
+            if(curNum == 0){
+                curNum = nextNum;
+                nextNum = 0;
+                counter++;
+            }
+            
+        }
+        return counter;
     }
 }
