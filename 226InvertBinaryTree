@@ -6,3 +6,24 @@ public TreeNode invertTree(TreeNode root) {
         root.right = invertTree(left);
         return root;
     }
+    
+//no recursive
+
+public TreeNode invertTree(TreeNode root) {
+if(root == null) return null;
+LinkedList<TreeNode> q = new LinkedList<TreeNode>();
+q.add(root);
+while(!q.isEmpty()){
+    TreeNode n = q.poll();
+    TreeNode left = n.left;
+    n.left = n.right;
+    n.right = left;
+    if(n.left != null){
+        q.add(n.left);
+    }
+    if(n.right != null){
+        q.add(n.right);
+    }
+}
+return root;
+}
