@@ -1,0 +1,35 @@
+public boolean isPalindrome(ListNode head) {
+        //找到链表中间点，反转链表剩余部分，然后pointer一个从头一个从反转的头开始对比
+        if(head == null) return true;
+        ListNode middle = findMiddle(head);
+        middle.next = reverse(middle.next);
+        
+        
+        while (head != null && middle.next != null && head.val == middle.next.val) {
+            head = head.next;
+            middle.next = middle.next.next;
+        }
+        
+        return middle.next == null;
+    }
+    
+    private ListNode findMiddle(ListNode head){
+        ListNode slow = head,fast = head.next;
+        while(fast!=null&&fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    private ListNode reverse(ListNode head){
+        if(head == null) return null;
+        ListNode prev = null;
+        while(head != null){
+            ListNode temp = head.next; //save the next element and help head to move next
+            head.next = prev; // 把当前元素不断指向上一级从而形成反转的链表
+            prev = head; //prev point to the current node
+            head = temp; //move the head to the next
+        }
+        return prev;
+    }
