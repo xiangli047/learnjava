@@ -1,0 +1,23 @@
+public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(n == 0) return head;
+        if(head == null||head.next == null) return null;
+        //双指针，距离为n，后面那个指针直到最后一个的时候，前一个为需要删除指针的上一个  
+        ListNode first = head, last = head;
+        for(int i = 0; i < n; i++){
+            last = last.next;
+        }
+        if(last == null){
+            //if head needs to be removed
+            head = head.next;
+            return head;
+        }
+        while(last.next != null){
+            first = first.next;
+            last=last.next;
+        }
+        
+        //remove first.next
+        first.next = first.next.next;
+        return head;
+        
+    }
