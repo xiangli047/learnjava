@@ -1,0 +1,17 @@
+public ListNode deleteDuplicates(ListNode head) {
+        //双指针，一前一后跑找相同
+        if(head == null) return null;
+        ListNode f = head, l = head.next;
+        while(l != null){
+            if(f.val == l.val){
+                //if is same, remove the node at l
+                f.next = l.next;
+                l = l.next; //l move twice
+            }else{
+                f = f.next;
+                l=l.next;
+            }
+        }
+        return head;
+        
+    }
