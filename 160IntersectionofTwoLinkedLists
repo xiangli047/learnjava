@@ -1,0 +1,36 @@
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        //求出a,b长度差值，然后让短的加上差值，再跟长的同时起跑，相交点为答案
+        //第二个办法同理，同时跑，a跑完开始连着跑b，b跑完连着跑a，当长的到达短的时候，长短点到终点距离一致，所以此时同理第一种方法，相遇时为答案
+        if(headA == null || headB == null){
+            return null;
+        }
+        ListNode a = headA, b = headB;
+        ListNode tailA = null, tailB = null;
+        
+        while(true){
+            
+            if(a == null){
+                a = headB;
+            }
+            if(b == null){
+                b = headA;
+            }
+            
+             if(a.next == null){
+                 tailA = a;
+             } 
+             if(b.next == null){
+                 tailB = b;
+             } 
+             
+             //The two links have different tails. So just return null;
+             if (tailA != null && tailB != null && tailA != tailB) {
+                 return null;
+             }
+             
+             if(a == b) return a;
+             a = a.next;
+             b = b.next;
+        }
+        
+    }
