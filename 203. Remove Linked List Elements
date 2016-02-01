@@ -1,0 +1,22 @@
+public ListNode removeElements(ListNode head, int val) {
+//iterator
+        if(head == null) return null;
+        ListNode helper = new ListNode(0);
+        helper.next = head;
+        ListNode p = helper;
+        
+        while(p != null && p.next != null){
+            if(p.next.val == val){
+                p.next = p.next.next;
+            }else{
+                p = p.next;
+            }
+        }
+        
+        return helper.next;
+//recursive
+if(head == null) return null;
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
+        
+}
