@@ -1,0 +1,32 @@
+public List<List<Integer>> levelOrder(TreeNode root) {
+        //iterator way
+        List<List<Integer>> rst = new ArrayList<List<Integer>>();
+        if(root == null) return rst;
+        int curNum = 1;
+        int nextNum = 0;
+        ArrayList<Integer> tmp = new ArrayList<Integer>();
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+         while(!queue.isEmpty()){
+             TreeNode n=queue.poll();
+             curNum--;
+             tmp.add(n.val);
+             if(n.left != null){
+                 queue.add(n.left);
+                 nextNum++;
+             }
+             if(n.right != null){
+                 queue.add(n.right);
+                 nextNum++;
+             }
+             if(curNum == 0){
+                 curNum = nextNum;
+                 nextNum = 0;
+                 rst.add(tmp);
+                 tmp = new ArrayList<Integer>();
+             }
+         }
+         
+         return rst;
+        
+    }
