@@ -1,0 +1,18 @@
+此处应该使用HashSet，因为HashMap存储时是对键值对进行存储，如果用一个无穷，
+不重复的数组进行判断，复杂度与时间消耗是很多的。
+而HashSet的好处在于：HashSet实现了Set接口，它不允许集合中有重复的值，
+在进行存储时，先进行判断，使用contain方法即可，复杂度与时间消耗就随之降下来了。
+
+public boolean containsDuplicate(int[] nums) {
+        if(nums.length <= 0) return false;
+        Set<Integer> set = new HashSet<Integer>();
+        
+        for(int i =0;i<nums.length;i++){
+            if(set.contains(nums[i])) //if already existed
+                return true;
+            set.add(nums[i]);
+        }
+        return false;
+    }
+    
+    
