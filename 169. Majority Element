@@ -1,0 +1,43 @@
+//hashmap way
+public int majorityElement(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int t = nums.length/2;
+        for(int i : nums){
+            if(map.get(i) != null){
+                //exsited
+                if(map.get(i)+1 > t) return i;
+                //update
+                map.put(i, map.get(i) + 1);
+            }else{
+                map.put(i, 1);
+            }
+            
+        }
+        return nums[0];
+        
+    }
+    
+    //Runtime: O(n) — Moore voting algorithm: We maintain a current candidate and a counter initialized to 0. 
+    As we iterate the array, we look at the current element x:
+If the counter is 0, we set the current candidate to x and the counter to 1.
+If the counter is not 0, we increment or decrement the counter based on whether x is the current candidate.
+After one pass, the current candidate is the majority element. Runtime complexity = O(n).
+
+public int majorityElement(int[] nums) {
+        int curIndex = 0, counter = 1;
+        
+        for(int i = 1; i<nums.length; i++){
+            if(nums[i] == nums[curIndex]){
+                counter++;
+            }else{
+                counter--;
+            }
+            
+            if(counter == 0){
+                curIndex = i;
+                counter = 1;
+            }
+        }
+        return nums[curIndex];
+        
+    }
