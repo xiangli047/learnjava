@@ -1,0 +1,22 @@
+public String getHint(String secret, String guess) {
+        int[] count = new int[10];
+        int a = 0, b = 0;
+        
+        for(int i =0;i<secret.length(); i++){
+            if(secret.charAt(i) == guess.charAt(i)){
+                a++;
+            }else{
+                int tmpS = secret.charAt(i) - '0';
+                int tmpG = guess.charAt(i) - '0';
+                count[tmpS]++;
+                if(count[tmpS] <= 0) b++;
+                count[tmpG]--;
+                if(count[tmpG] >= 0) b++;
+            }
+
+        }
+        
+        return String.valueOf(a) + 'A' + String.valueOf(b) + 'B';
+    }
+    //创建一个包含10个元素的数组，分别用于记录遇到的每个数字的情况。这个方法只需要遍历一次数组。
+    
