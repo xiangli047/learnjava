@@ -1,0 +1,18 @@
+public int rob(int[] nums) {
+        int len = nums.length;
+        if(len == 0) return 0;
+        if(len == 1) return nums[0];
+        
+        int[] global = new int[len];
+        global[0] = nums[0];
+        global[1] = Math.max(nums[0], nums[1]);
+        
+        for(int i = 2;i < len;i++){
+            global[i] = Math.max(global[i-2]+nums[i], global[i-1]);
+        }
+        
+        return global[len-1];
+        
+    }
+    
+    //递推公式dp[i] = max(num[i] + dp[i - 2], dp[i - 1])
