@@ -1,0 +1,21 @@
+    public boolean isValidBST(TreeNode root) {
+        return isBST(root, null, null);
+        
+    }
+    
+    private boolean isBST(TreeNode node, Integer low, Integer high){ //用integer而不是int，因为int不接受null. In Java an int is a primitive while an Integer is an Object
+        if(node == null) return true;
+        
+        if(low != null && node.val <= low){
+            return false;
+        }
+        
+        if(high != null && node.val >= high){
+            return false;
+        }
+        
+        return isBST(node.left,low,node.val) && isBST(node.right,node.val,high);
+    }
+    
+    递归的判断每个节点是否满足BST的要求，需要注意的是BST的要求不只是左节点小于根节点小于右节点，还有个隐含的条件是，
+    左子树里所有节点都要小于根节点，而右子树里所有节点都要大于根节点。所以我们要把这个上限和下限代入递归中
