@@ -17,3 +17,20 @@ public List<Integer> inorderTraversal(TreeNode root) {
         return rst;
         
     }
+
+//recursive
+
+public void helper(TreeNode root, ArrayList<Integer> re){
+          if(root==null)
+              return;
+          helper(root.left,re);
+          re.add(root.val);
+          helper(root.right,re);
+      }
+     public ArrayList<Integer> inorderTraversal(TreeNode root) {
+          ArrayList<Integer> re = new ArrayList<Integer>();
+         if(root==null)
+             return re;
+         helper(root,re);
+         return re;
+     }
