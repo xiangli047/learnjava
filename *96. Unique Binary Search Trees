@@ -12,6 +12,15 @@ public int numTrees(int n) {
         }
         return dp[n];
     }
+    /*
+The case for 3 elements example
+Count[3] = Count[0]*Count[2]  (1 as root)
+              + Count[1]*Count[1]  (2 as root)
+              + Count[2]*Count[0]  (3 as root)
+
+Therefore, we can get the equation:
+Count[i] = ∑ Count[0...k] * [ k+1....i]     0<=k<i-1
+    
     
   二叉搜索树有个性质，就是左边的数都比根小，右边的数都比根大。
   另外，题目说明二叉树的节点是从1到n，所以我们能确定如果根为k，
