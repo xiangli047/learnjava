@@ -1,0 +1,26 @@
+public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<Integer> current = new ArrayList<Integer>();
+        List<List<Integer>> rst = new ArrayList<List<Integer>>();
+        findSum(rst, current, root, sum);
+        return rst;
+        
+    }
+    private void findSum(List<List<Integer>> rst, List<Integer> current, TreeNode node, int sum){
+        if(node == null) return;
+        sum -= node.val;
+        
+        if(node.left == null && node.right == null){
+            if(sum == 0){
+                current.add(node.val);
+                rst.add(new ArrayList<Integer>(current)); ******instead of current
+                current.remove(current.size()-1 );
+            }
+            return;
+        }
+        
+        current.add(node.val);
+        findSum(rst,current,node.left,sum);
+        findSum(rst,current,node.right,sum);
+        current.remove(current.size()-1 );
+        
+    }
