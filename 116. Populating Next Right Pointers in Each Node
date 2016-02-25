@@ -4,9 +4,7 @@ public void connect(TreeLinkNode root) {
             root.left.next = root.right;
         }
         if(root.right != null){
-            if(root.next == null){
-                root.right.next = null;
-            }else{
+            if(root.next != null){
                 root.right.next = root.next.left;
             }
         }
