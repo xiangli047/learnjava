@@ -1,0 +1,24 @@
+public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> rst = new ArrayList<List<Integer>>();
+        List<Integer> subRst = new ArrayList<Integer>();
+        getSum(root,sum,rst,subRst);
+        return rst;
+        
+    }
+
+    private void getSum(TreeNode node, int sum, List<List<Integer>> rst, List<Integer> subRst){
+        if(node == null) return;
+        sum -= node.val;
+        
+        subRst.add(node.val);
+        if(node.left ==null && node.right == null && sum == 0){
+            rst.add(new ArrayList<Integer>(subRst));
+            subRst.remove(subRst.size()-1);
+            return;
+        }
+        
+        getSum(node.left,sum,rst,subRst);
+        getSum(node.right,sum,rst,subRst);
+        subRst.remove(subRst.size()-1);
+        
+    }
