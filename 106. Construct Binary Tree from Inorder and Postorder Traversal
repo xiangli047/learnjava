@@ -1,0 +1,23 @@
+public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder.length != postorder.length) return null;
+        return build(inorder, 0, inorder.length -1, postorder, 0, postorder.length-1);
+    }
+    
+    private TreeNode build(int[] inorder, int instart, int inend, int[] postorder, int poststart, int postend){
+        if(instart > inend) return null;
+        TreeNode root = new TreeNode(postorder[postend]);
+        
+        int rootIndex = rootPosition(inorder, root.val, instart, inend);
+        int len = rootIndex - instart;
+        root.left = build(inorder, instart, rootIndex -1, postorder, poststart, poststart + len -1);
+        root.right = build(inorder, rootIndex + 1, inend, postorder, poststart + len, postend - 1);
+        
+        return root;
+    }
+    
+    private int rootPosition(int[] inorder, int key, int start, int end){
+        for(int i = start; i <= end; i++){
+            if(inorder[i] == key) return i;
+        }
+        return -1;
+    }
