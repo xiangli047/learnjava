@@ -1,0 +1,44 @@
+// Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if (root == null) return "";
+        StringBuilder sb = new StringBuilder();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode tmp = q.poll();
+            if(tmp == null){
+                sb.append("null,");
+            }else{
+                sb.append(String.valueOf(tmp.val) + ",");
+                q.add(tmp.left);
+                q.add(tmp.right);
+            }
+            
+            
+        }
+        return sb.toString();
+        
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if (data == "") return null;
+        String[] nodes = data.split(",");
+        Queue<TreeNode> q = new LinkedList<>();
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        q.add(root);
+        for(int i = 1; i < nodes.length;i++){
+            TreeNode tmp = q.poll();
+            if(!nodes[i].equals("null")){
+                TreeNode left = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(left);
+                tmp.left = left;
+            }
+            if(!nodes[++i].equals("null")){
+                TreeNode right = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(right);
+                tmp.right = right;
+            }
+        }
+        return root;
+    }
