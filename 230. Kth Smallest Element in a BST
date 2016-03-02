@@ -1,0 +1,35 @@
+  
+//recursive  
+  private int counter;
+    public int kthSmallest(TreeNode root, int k) {
+        counter = 0;
+        return findNode(root,k).val;
+
+    }
+    
+    private TreeNode findNode(TreeNode root, int k){
+        if(root == null) return null;
+        TreeNode left = findNode(root.left,k);
+        if(left != null) return left;
+        if(k == ++counter) return root;
+        return findNode(root.right,k);
+    }
+    
+    //iterative
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+ 
+        TreeNode p = root;
+        int result = 0;
+        while(p != null || !stack.isEmpty()){
+            if(p != null){
+                stack.push(p);
+                p = p.left;
+            }else{
+                TreeNode tmp = stack.pop();
+                if(--k == 0) return tmp.val;
+                p = tmp.right;
+            }
+        }
+        
+        
+        return result;
