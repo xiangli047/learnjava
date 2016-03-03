@@ -1,0 +1,51 @@
+
+//iterative, 找到每一层最右节点的值
+public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> rst= new ArrayList<Integer>();
+        if(root == null) return rst;
+        
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        while(queue.size() > 0){
+            int size = queue.size();
+            
+            for(int i = 0; i< size; i++){
+                TreeNode node = queue.remove(); //查询完后移除每一层的所有节点
+                if(i == 0){ //判断为每一层最右节点即记录
+                    rst.add(node.val);
+                }
+                if(node.right != null){
+                    queue.add(node.right);
+                }
+                if(node.left != null){
+                    queue.add(node.left);
+                }
+                
+            }
+        }
+        
+        return rst;
+        
+    }
+    
+    //recursive
+    
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> rst= new ArrayList<Integer>();
+        if(root == null) return rst;
+        int level = 0;
+        dfs(root, rst,level);
+        
+        return rst;
+        
+    }
+    
+    private void dfs(TreeNode root,List<Integer> rst,int level){
+        if(root == null) return;
+        if(level == rst.size())
+            rst.add(root.val);
+        dfs(root.right, rst, level+1);    
+        dfs(root.left, rst, level+1);
+        
+        
+    }
