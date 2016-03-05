@@ -1,16 +1,18 @@
-TreeNode pre = null;
-    public void flatten(TreeNode root) {
+public void flatten(TreeNode root) {
+//不断把旧的右边挂在新的最右边上
         if(root == null) return;
         TreeNode right = root.right;
         
-        if(pre != null){
-            pre.left = null;
-            pre.right = root;
-        }
+        root.right = root.left;
+        root.left = null;
         
-        pre = root; //overwrite?
-        flatten(root.left);
-        flatten(right);
+        TreeNode p = root;
+        while(p.right != null){
+            p = p.right;
+        }
+        p.right = right;
+        
+        flatten(root.right);
         
         
     }
