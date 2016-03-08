@@ -1,19 +1,36 @@
   
 //recursive  
-  private int counter;
-    public int kthSmallest(TreeNode root, int k) {
-        counter = 0;
-        return findNode(root,k).val;
+int kthSmallestVal;
+int n=0;
 
+
+public int kthSmallest(TreeNode root, int k) {
+
+    //in-order traversal
+    traversal(root, k);
+    return kthSmallestVal;
+
+}
+
+
+public void traversal(TreeNode root, int k){
+
+    if(root==null)
+        return ;
+
+
+    traversal(root.left, k);
+
+    if(++n == k){
+        kthSmallestVal = root.val; 
+        return ;
     }
-    
-    private TreeNode findNode(TreeNode root, int k){
-        if(root == null) return null;
-        TreeNode left = findNode(root.left,k);
-        if(left != null) return left;
-        if(k == ++counter) return root;
-        return findNode(root.right,k);
-    }
+
+    traversal(root.right, k);
+
+    return ;
+
+}
     
     //iterative
     Stack<TreeNode> stack = new Stack<TreeNode>();
