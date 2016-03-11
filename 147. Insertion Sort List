@@ -1,0 +1,20 @@
+
+public class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        
+        while(head != null){
+            ListNode runner = dummy;
+            while(runner.next != null && runner.next.val < head.val){
+                runner = runner.next;
+            }
+            
+            ListNode tmp = head.next;
+            head.next = runner.next; //以runner当前更大值或null为节点挂到当前head后面 形成一个新的链表
+            runner.next = head; //再把新表挂回dummy里
+            head = tmp;
+            
+        }
+        return dummy.next;
+    }
+}
