@@ -1,0 +1,20 @@
+//The basic idea is to link the tail of the list with the head, make it a cycle. Then count to the rotate point and cut it.
+
+
+if(head == null) return null;
+        ListNode countLen = head;
+        int len= 1;
+        
+        while(countLen.next != null){
+            len++;
+            countLen = countLen.next;
+        }
+        if(k % len == 0) return head;
+        countLen.next = head;
+        
+        for(int i = 0; i < len - k % len -1; i++){
+            head = head.next;
+        }
+        countLen = head.next;
+        head.next = null;
+        return countLen;
