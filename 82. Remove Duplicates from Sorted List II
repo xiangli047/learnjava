@@ -1,0 +1,22 @@
+public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(0), fast = head,slow = dummy;
+        slow.next = fast;
+        while(fast != null){
+            //move fast pointer to the last duplicate one
+            while(fast.next != null && fast.next.val == fast.val){
+                fast = fast.next;
+            }
+            
+            if(slow.next != fast){ //if it's duplicated, now fast at the last duplicated node
+                slow.next = fast.next;
+                fast = slow.next;
+            }else{
+                //if no duplicated or at the last, move both pointers forward
+                slow = slow.next;
+                fast = fast.next;
+            }
+        }
+        return dummy.next;
+        
+    }
