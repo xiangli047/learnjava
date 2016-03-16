@@ -1,0 +1,17 @@
+public TreeNode sortedListToBST(ListNode head) {
+        if(head == null) return null;
+        return bst(head,null);
+    }
+    
+    private TreeNode bst(ListNode head, ListNode tail){
+        if(head == tail) return null;
+        ListNode fast = head, slow = head;
+        while(fast != tail && fast.next != tail){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        TreeNode root = new TreeNode(slow.val);
+        root.left = bst(head, slow);
+        root.right = bst(slow.next, tail);
+        return root;
+    }
