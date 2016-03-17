@@ -1,0 +1,24 @@
+//创建2个listnode 一个存大一个存小，然后拼起来
+
+public ListNode partition(ListNode head, int x) {
+        if(head == null) return null;
+        ListNode small = new ListNode(0), smallp = small;
+        ListNode big = new ListNode(0), bigp = big;
+        
+        while(head != null){
+            if(head.val < x){
+                smallp.next = head;
+                smallp = smallp.next;
+            }else{
+                bigp.next = head;
+                bigp = bigp.next;
+            }
+            head = head.next;
+            
+        }
+        smallp.next = big.next;
+        bigp.next = null; 
+        
+        return small.next;
+        
+    }
