@@ -1,0 +1,16 @@
+public ListNode swapPairs(ListNode head) {
+        if(head == null) return null;
+        ListNode dummy = new ListNode(0), slow = dummy, fast = head;
+        slow.next = head;
+        
+        while(fast!= null && fast.next != null){
+            ListNode tmp = fast.next;
+            fast.next = tmp.next;
+            tmp.next = fast;
+            slow.next = tmp;
+            fast = fast.next;
+            slow = slow.next.next;
+        }
+        return dummy.next;
+        
+    }
