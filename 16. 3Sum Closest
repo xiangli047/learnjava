@@ -1,0 +1,29 @@
+//同样3个指针搜索，找到sum的绝对值更小的设为result，最后遍历完出结果
+
+public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int rst = nums[0] + nums[1] + nums[nums.length-1];
+        int sum = 0;
+        for(int p1 = 0; p1<nums.length-2;p1++){
+            int p2 = p1+1, p3 = nums.length-1;
+            while(p2<p3){
+                sum = nums[p1]+nums[p2]+nums[p3];
+                if(sum == target){
+                    return target;
+                }else if(sum > target){
+                    while(p2<p3&&nums[p3] == nums[p3-1]) p3--; //skip the duplicate value
+                    p3--;
+                }else{
+                    while(p2<p3&&nums[p2] == nums[p2+1]) p2++;//skip the duplicate value
+                    p2++;
+                }
+                
+                if(Math.abs(target-sum) < Math.abs(target-rst)){
+                    rst = sum;
+                }
+                
+            }
+        }
+        
+        return rst;
+    }
