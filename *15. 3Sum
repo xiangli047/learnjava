@@ -1,0 +1,30 @@
+public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> rst = new ArrayList<>(); *****List<List<Integer>> rst = new ArrayList<List<Integer>>() is much slow
+        if(nums.length < 3) return rst;
+        
+        Arrays.sort(nums);
+        
+        for(int p1 = 0; p1<nums.length-2; p1++){
+            if(nums[p1] > 0) break; //if 第一个数大于0，结束
+            if(p1 > 0 && nums[p1] == nums[p1 - 1]) continue; //如果和前面数字一样 skip the same number
+            int target = 0-nums[p1];
+            int p2 = p1+1;
+            int p3 = nums.length-1;
+            while(p2 < p3){
+                if(nums[p2] + nums[p3] == target){//find the numbers
+                    rst.add(Arrays.asList(nums[p1],nums[p2],nums[p3]));
+                    while(p2 < p3 && nums[p2] == nums[p2+1]) p2++;
+                    while(p2 < p3 && nums[p3] == nums[p3-1]) p3--;
+                    p2++; p3--;
+                }else if(nums[p2] + nums[p3] < target){
+                    while(p2 < p3 && nums[p2] == nums[p2+1]) p2++;
+                    p2++;
+                }else{
+                    while(p2 < p3 && nums[p3] == nums[p3-1]) p3--;
+                    p3--;
+                }
+            }
+            
+        }
+        return rst;
+    }
