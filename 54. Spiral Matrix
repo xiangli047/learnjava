@@ -1,0 +1,36 @@
+public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> rst= new ArrayList<Integer>();
+        if(matrix.length == 0) return rst;
+        int rows = matrix.length, cols = matrix[0].length;
+        
+        int count = 0;
+        
+        while(count*2<rows && count*2<cols){
+            //goes right
+            for(int i = count; i<cols-count;i++){
+                rst.add(matrix[count][i]);
+            }
+            //goes down
+            for(int i = count+1; i<rows-count;i++){
+                rst.add(matrix[i][cols-count-1]);
+            }
+            
+            // if only one row /col remains
+            if(rows - count*2 == 1 || cols - count*2 == 1) break;
+            
+            //goes left
+            for(int i = cols-count-2; i>=count;i--){
+                rst.add(matrix[rows-count-1][i]);
+            }
+            //goes up
+            for(int i = rows-count-2; i>count;i--){
+                rst.add(matrix[i][count]);
+            }
+            
+            count++;
+            
+        }
+        
+        return rst;
+        
+    }
