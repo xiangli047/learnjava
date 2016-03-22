@@ -1,0 +1,56 @@
+二分法，三个pointer，分别找到左右边界，返回即可
+
+public int[] searchRange(int[] nums, int target) {
+        int[] rst = new int[2];
+        Arrays.fill(rst, -1);
+        if(nums.length == 0) return rst;
+        
+        int start, mid, end;
+        //find the left bound
+        start = 0;
+        end = nums.length-1;
+        
+        while(start+1<end){
+            mid = (start+end)/2;
+            if(nums[mid] == target){
+                end = mid;
+            }else if(nums[mid] < target){
+                start = mid;
+            }else{
+                end = mid;
+            }
+            
+        }
+        if(nums[start] == target){
+            rst[0] = start;
+        }else if(nums[end] == target){
+            rst[0] = end;
+        }else{
+            return rst;
+        }
+        
+        //find the right bound
+        start = 0;
+        end = nums.length-1;
+        
+        while(start+1<end){
+            mid = (start+end)/2;
+            if(nums[mid] == target){
+                start = mid;
+            }else if(nums[mid] < target){
+                start = mid;
+            }else{
+                end = mid;
+            }
+            
+        }
+        if(nums[end] == target){
+            rst[1] = end;
+        }else if(nums[start] == target){
+            rst[1] = start;
+        }else{
+            return rst;
+        }
+        
+        return rst;
+    }
