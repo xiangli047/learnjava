@@ -1,0 +1,22 @@
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> rst = new ArrayList<List<Integer>>();
+        if(candidates.length == 0) return rst;
+        Arrays.sort(candidates);
+        helper(rst, new ArrayList<Integer>(), candidates, target, 0);
+        return rst;
+    }
+    
+    private void helper(List<List<Integer>> rst, List<Integer> sub, int[] cand, int remain, int from){
+        if(remain == 0){
+            rst.add(new ArrayList<Integer>(sub));
+            return;
+        }
+        if(remain < 0) return;
+        
+        for(int i = from; i < cand.length; i++){
+            sub.add(cand[i]);
+            helper(rst,sub,cand,remain-cand[i],i); //深度优先，依次找对应每个数字的可能
+            sub.remove(sub.size()-1);
+        }
+        
+    }
