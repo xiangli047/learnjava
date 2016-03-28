@@ -17,12 +17,12 @@ public int searchInsert(int[] nums, int target) {
                 end = mid;
             }
         }
-        循环结束判断下结果
+        循环结束判断下结果,三个区间
         if(nums[start] >= target){
-            return start;
+            return start;//比start小
         }else if(nums[end] >= target){
-            return end;
+            return end;//start 到end之间
         }else{
-            return end+1;
+            return end+1;//比end大
         }
     }
