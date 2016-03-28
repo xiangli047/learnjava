@@ -14,6 +14,8 @@ public List<List<Integer>> combinationSum(int[] candidates, int target) {
         if(remain < 0) return;
         
         for(int i = from; i < cand.length; i++){
+                if(i>0 && candidates[i] == candidates[i-1]) //deal with dupicate
+                 continue;
             sub.add(cand[i]);
             helper(rst,sub,cand,remain-cand[i],i); //深度优先，依次找对应每个数字的可能
             sub.remove(sub.size()-1);
