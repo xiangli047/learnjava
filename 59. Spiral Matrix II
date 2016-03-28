@@ -1,19 +1,22 @@
-public int[][] generateMatrix(int n) {
+public class Solution {
+    public int[][] generateMatrix(int n) {
         if(n < 0) return null;
         int[][] rst = new int[n][n];
         int num = 1;
         int count = 0;
         while(count*2 < n){
+            //right
             for(int i = count; i < n-count; i++){
                 rst[count][i] = num++;
             }
+            //if only 1 row left, it has been added, just return
+            if(n - count*2 == 1) return rst;
             
             //down
             for(int i = count+1; i < n-count; i++){
                 rst[i][n-1-count] = num++;
             }
             
-            if(n - count*2 == 1) return rst;
             
             //left
             for(int i = n-2-count; i >= count; i--){
@@ -29,3 +32,4 @@ public int[][] generateMatrix(int n) {
         
         return rst;
     }
+}
