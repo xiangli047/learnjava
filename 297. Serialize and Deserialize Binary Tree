@@ -30,14 +30,12 @@
         for(int i = 1; i < nodes.length;i++){
             TreeNode tmp = q.poll();
             if(!nodes[i].equals("null")){
-                TreeNode left = new TreeNode(Integer.parseInt(nodes[i]));
+                tmp.left = new TreeNode(Integer.parseInt(nodes[i]));
                 q.offer(left);
-                tmp.left = left;
             }
             if(!nodes[++i].equals("null")){
-                TreeNode right = new TreeNode(Integer.parseInt(nodes[i]));
+                tmp.right = new TreeNode(Integer.parseInt(nodes[i]));
                 q.offer(right);
-                tmp.right = right;
             }
         }
         return root;
