@@ -1,0 +1,22 @@
+public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> rst = new ArrayList<>();
+        if(k < 1 || n < 1 || n > 9*k) return rst; //设置好上限
+        
+        helper(rst, new ArrayList<Integer>(), k, n, 1);
+        return rst;
+    }
+    
+    private void helper(List<List<Integer>> rst, List<Integer> sub, int counter, int remain, int from){
+        if(remain == 0 && counter == 0){ //跟II不同的在于计算counter
+            rst.add(new ArrayList<Integer>(sub));
+            return;
+        }
+        if(remain < 0 || counter < 0) return;
+        
+        for(int i = from; i < 10; i++){
+            sub.add(i);
+            helper(rst, sub, counter-1, remain-i, i+1);
+            sub.remove(sub.size()-1);
+        }
+        
+    }
