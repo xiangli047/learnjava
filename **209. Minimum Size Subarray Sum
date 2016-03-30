@@ -1,6 +1,6 @@
 public int minSubArrayLen(int s, int[] nums) {
         if(nums.length <1) return 0;
-        int len = nums.length, rst = len+1, start = 0, end = 0, sum = 0;
+        int len = nums.length, rst = len+1, start = 0, end = 0, sum = 0; ***** rst=nums.length就不行?
         
         while(end <len){
             sum += nums[end];
