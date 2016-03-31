@@ -1,0 +1,49 @@
+//1. counting sort: 
+-找出待排序的数组中最大和最小的元素
+-统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项
+-对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）//得到每个相同数字的区间
+-反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1
+
+if(nums.length < 1) return;
+        int len = nums.length;
+        int[] rst = new int[len];
+        int[] c = new int[3];
+        
+        for(int i = 0; i < len; i++){
+            c[nums[i]]++;
+        }
+        
+        for(int i = 1; i < c.length; i++){
+            c[i] = c[i] + c[i-1];
+        }
+        
+        for(int i = 0; i < len; i++){
+            rst[--c[nums[i]]] = nums[i];
+        }
+        
+        for(int i = 0; i < len; i++){
+            nums[i] = rst[i];
+        }
+        
+2. one pass, 3 pointers //一头一尾，然后一个依次跑，为0则跟头指针指向的1交换位置(若头指针指向2，已经被操作过了)，
+为2则跟尾指针交换，并再次检测换过来以后的值
+public void sortColors(int[] nums) {
+        if(nums.length < 1) return;
+        int p0 = 0, p2 = nums.length-1, index = 0;
+        while(index <= p2){
+            if(nums[index] == 0){
+                nums[index] = nums[p0];
+                nums[p0] = 0;
+                p0++;
+            }
+            if(nums[index] == 2){
+                nums[index] = nums[p2];
+                nums[p2] = 2;
+                p2--;
+                index--;
+            }
+            
+            index++;
+        }
+        
+    }
