@@ -18,10 +18,30 @@ public boolean searchMatrix(int[][] matrix, int target) {
                 return true;
             }else if(midValue < target){
                 low = mid+1;
-                
             }else{
                 high = mid-1;
             }
         }
         return false;
+    }
+    
+//OR
+public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length == 0) return false;
+        int rows = matrix.length, cols = matrix[0].length, start = 0, end = rows*cols, mid;
+        
+        while(start < end){
+            mid = (start+end)/2;
+            if(matrix[mid/cols][mid%cols] == target) return true;
+            if(matrix[mid/cols][mid%cols] < target){
+                start = mid+1;
+            }else{
+                end = mid;
+            }
+            
+        }
+        
+        
+        return false;
+        
     }
