@@ -1,0 +1,57 @@
+public class Solution {
+    private int n, k;
+    private Map<Integer, List<Integer>> machines = null;
+    public List<Integer> availableIds = null; //用来存放可用的id集
+    // @param n a positive integer
+    // @param k a positive integer
+    // @return a Solution object
+    public static Solution create(int n, int k) {
+        Solution solution = new Solution();
+        solution.n = n;
+        solution.k = k;
+        solution.availableIds = new ArrayList<Integer>();
+        solution.machines = new HashMap<Integer, List<Integer>>();
+        for(int i = 0; i < n; i++){
+            solution.availableIds.add(i);
+        }
+        return solution;
+    }
+
+    // @param machine_id an integer
+    // @return a list of shard ids
+    public List<Integer> addMachine(int machine_id) {
+        List<Integer> rst = new ArrayList<Integer>();
+        Random rand = new Random();
+        for(int i = 0; i < k; i++){
+            int index = rand.nextInt(availableIds.size()); 
+            rst.add(availableIds.get(index));
+            availableIds.remove(index);
+        }
+        Collections.sort(rst); //Arrays.sort() if you're dealing with an Array. Use Collections.sort() if you're dealing with something that implements the Collection interface (eg ArrayList)
+        machines.put(machine_id, rst);
+        return rst;
+    }
+
+    // @param hashcode an integer
+    // @return a machine id
+    public int getMachineIdByHashCode(int hashcode) {
+        int machineId = 0, distance = n;
+        for(Map.Entry<Integer, List<Integer>> entry : machines.entrySet()){
+            int k = entry.getKey();
+            List<Integer> nums = entry.getValue();
+            for(int num : nums){
+                int d = num - hashcode; //d在这里作为最小数
+                if(d < 0){
+                    d += n;
+                }
+                if(d < distance){ //若有比d小的，则更新d和machine id的值
+                    distance = d;
+                    machineId = k;
+                }
+            }
+            
+        }
+        return machineId;
+        
+    }
+}
