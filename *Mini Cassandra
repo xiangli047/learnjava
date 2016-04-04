@@ -24,7 +24,7 @@ public class MiniCassandra {
      */
     public void insert(String raw_key, int column_key, String column_value) {
         if(!dataBlocks.containsKey(raw_key)){
-            dataBlocks.put(raw_key, new TreeMap<Integer,String>()); ***NavigableMap ***
+            dataBlocks.put(raw_key, new TreeMap<Integer,String>()); ***TreeMap ***
         }
             dataBlocks.get(raw_key).put(column_key,column_value);
     }
