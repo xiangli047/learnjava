@@ -1,0 +1,18 @@
+public int jump(int[] A) {
+        if(A == null || A.length < 2) return 0;
+        int rst = 0, maxJump = 0, lastCover = 0;
+        
+        for(int i = 0; i <= maxJump && i < A.length; i++){
+            if(i > lastCover){
+                lastCover = maxJump;
+                rst++;
+            }
+            
+            
+            if(i + A[i] > maxJump){
+                maxJump = i + A[i];
+            }
+            
+        }
+        return maxJump < A.length -1 ? 0 : rst;
+    }
