@@ -1,0 +1,31 @@
+
+
+private int getMaxLen(Set<String> wordDict){
+        int rst = 0;
+        for(String s : wordDict){
+            rst = Math.max(rst, s.length());
+        }
+        return rst;
+    }
+    
+    public boolean wordBreak(String s, Set<String> wordDict) {
+        int n = s.length();
+        if(n == 0) return true;
+        boolean[] dp = new boolean[n + 1];
+        int maxLen = getMaxLen(wordDict);
+        
+        dp[0] = true;
+        for(int i = 1; i <= n; i++){
+            for(int lastWordLen = 1; lastWordLen <= i && lastWordLen <= maxLen; lastWordLen++){
+                if(!dp[i - lastWordLen]){
+                    continue;
+                }
+                if(wordDict.contains(s.substring(i - lastWordLen, i))){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+        
+    }
