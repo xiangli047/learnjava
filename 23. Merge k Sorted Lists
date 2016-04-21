@@ -1,0 +1,31 @@
+public class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) return null;
+        if(lists.length == 1) return lists[0];
+        return splitlist(lists, 0, lists.length - 1);
+    }
+    
+    private ListNode splitlist(ListNode[] lists, int start, int end){
+        if(start >= end) return lists[start];
+        int mid = start + (end - start)/2;
+        ListNode left = splitlist(lists, start, mid);
+        ListNode right = splitlist(lists, mid + 1, end);
+        return merge2(left, right);
+    }
+    
+    private ListNode merge2(ListNode first, ListNode second){
+        ListNode rst = new ListNode(0), p = rst;
+        while(first != null && second != null){
+            if(first.val > second.val){
+                p.next = second;
+                second = second.next;
+            }else{
+                p.next = first;
+                first = first.next;
+            }
+            p = p.next;
+        }
+        p.next = first == null ? second : first;
+        return rst.next;
+    }
+}
