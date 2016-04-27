@@ -1,0 +1,24 @@
+public int nthUglyNumber(int n) {
+        if(n <= 6) return n;
+        List<Integer> rst = new ArrayList<Integer>();
+        rst.add(1);
+        int min = 0, n2 = 0, n3 = 0, n5 = 0;
+        
+        while(rst.size() < n){
+            int t2 = rst.get(n2) * 2, t3 = rst.get(n3) * 3, t5 = rst.get(n5) * 5;
+            min = Math.min(t2, Math.min(t3,t5));
+            
+            if(t2 == min){
+                n2++;
+            }
+            if(t3 == min){
+                n3++;
+            }
+            if(t5 == min){
+                n5++;
+            }
+            rst.add(min);
+            
+        }
+        return rst.get(n - 1);
+    }
