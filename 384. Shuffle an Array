@@ -1,0 +1,34 @@
+//shuffle 算法
+
+import java.util.Random;
+public class Solution {
+    int[] nums;
+    Random rand;
+    public Solution(int[] nums) {
+        this.nums = nums;
+        rand = new Random();
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return Arrays.copyOf(nums, nums.length);
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle() {
+        int[] rst = Arrays.copyOf(nums, nums.length);
+        
+        for(int i = 1; i < nums.length; i++){
+            int pos = rand.nextInt(i + 1);
+            swap(rst, i, pos);
+        }
+        return rst;
+    }
+    
+    
+    private void swap(int[] a, int i, int j){
+        int tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+    }
+}
