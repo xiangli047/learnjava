@@ -1,0 +1,26 @@
+//题意：把1-n的数字按辞典索引排序
+核心：几种情况的进位退位：
+1.每次乘10进位，直到大于n
+2.之后如果不能进位了，那么就加1，但不能为9
+3.如果末尾是9的话，那么需要退位再加1，特殊情况是最后几位都为9的话，比如499，则要退2位，有几个9退几位
+
+public List<Integer> lexicalOrder(int n) {
+        List<Integer> rst = new ArrayList<Integer>();
+        int cur = 1;
+        for(int i = 1; i <= n; i++){
+            rst.add(cur);
+            if(cur * 10 <= n){
+                cur *= 10;
+            }else if(cur % 10 != 9 && cur + 1 <= n){
+                cur++;
+            }else{
+                while(cur/10 % 10 == 9){
+                    cur = cur/10;
+                }
+                cur = cur/ 10 + 1;
+            }
+            
+        }
+        
+        return rst;
+    }
