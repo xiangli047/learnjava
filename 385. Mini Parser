@@ -1,0 +1,35 @@
+//题意：给一个String，把他变成NestedInteger的一层一层结构
+核心：用stack保存一层一层过来的NestedInteger List, 另外用start表示数字开始的位置，用以cut数字。然后遇到[就开启新的NestedInteger，放入当前栈顶的NestedInteger里面，再让新的NestedInteger
+放入栈中变成新的栈顶用以保存下一个数字，同时start要reset成当前位之后。 如果遇到逗号或者]， 则将数字存入当前的栈顶，这里要判断
+start<i， 如果不是说明当前和之前没有数字产生，则说明有[]空或]]；start也要重置为i+1；另外如果是]，还需要做出栈处理，说明当前层结束了
+
+public NestedInteger deserialize(String s) {
+        if(s.charAt(0) != '['){
+            return new NestedInteger(Integer.valueOf(s));
+        }
+        NestedInteger rst = new NestedInteger();
+        Stack<NestedInteger> stack = new Stack<NestedInteger>();
+        stack.push(rst);
+        int start = 1;
+        for(int i = 1; i < s.length(); i++){
+            char c = s.charAt(i);
+            if(c == '['){
+                start = i + 1;
+                NestedInteger ni = new NestedInteger();
+                stack.peek().add(ni);
+                stack.push(ni);
+                
+            }else if(c == ']' || c == ','){
+                if(start < i){
+                    Integer num = Integer.valueOf(s.substring(start, i));
+                    stack.peek().add(new NestedInteger(num));
+                }
+                start = i + 1;
+                if(c == ']'){
+                    stack.pop();
+                }
+            }
+        }
+        
+        return rst;
+        }
