@@ -1,0 +1,36 @@
+// 2种办法，一个是用k size的maxheap，如果有当前top最大的还小的，则出栈再把新元素入栈。时间是n^2
+第二种二分法，时间是nlogx，x是最大和最小值的差值。 先设定初始最大最小值，然后有一个中值，然后找到比中值小的元素有多少个，如果
+大于k，则说明中值过大，上界给中值继续loop，如果小于k，说明中值过小，下界得中值加1。 如果相等，中值给upper继续loop，最后结果就是上界
+计算元素和的时候，把左下角设为初始点，这个点有第一行的最大和列的最小，方便移动，找到小于等于target的时候需要count += i+1，表示当前数
+同列更小的包括自己都加进去。
+
+public int kthSmallest(int[][] matrix, int k) {
+        int n = matrix.length;
+        int lower = matrix[0][0];
+        int upper = matrix[n - 1][n - 1];
+        
+        while(lower < upper){
+            int mid = (upper - lower)/2 + lower;
+            int counter = count(matrix, mid);
+            if(counter < k){
+                lower = mid + 1;
+            }else{
+                upper = mid;
+            }
+        }
+        return upper;
+    }
+    
+    private int count(int[][] matrix, int target){
+        int x = matrix.length - 1, y = 0, count = 0;
+        
+        while(x >= 0 && y < matrix[0].length){
+            if(matrix[x][y] <= target){
+                count += x + 1;
+                y++;
+            }else{
+                x--;
+            }
+        }
+        return count;
+    }
