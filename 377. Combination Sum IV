@@ -1,0 +1,14 @@
+//dp
+//2个循环，外层i-target,内层num，从dp[i]累积+=dp[i-num]，表示加上当前元素之前如果大于0，表示当前元素是可以加入队列的，所以这里加上加之前
+dp位的积累，有几个，加上了num之后就有几个变化
+
+public int combinationSum4(int[] nums, int target) {
+        int[] dp= new int[target+1];
+        dp[0] = 1;
+        for(int i = 1; i <= target;i++){
+            for(int num:nums){
+                if(i >= num) dp[i] += dp[i - num];
+            }
+        }
+        return dp[target];
+    }
