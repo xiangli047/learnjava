@@ -1,0 +1,17 @@
+就是只加首位，末尾+1位 -inc，之后再做从左往右的累加
+因为末尾之后一位减了之前加的，所以到他这负负得正之前累加的数就没了，相当于一道门，挡住了之前的累加数
+时间是k+n
+
+public int[] getModifiedArray(int length, int[][] updates) {  
+        int[] results = new int[length];  
+        for(int[] update : updates) {  
+            results[update[0]] += update[2];  
+            if (update[1] + 1 < length) results[update[1] + 1] -= update[2];  
+        }  
+        int value = 0;  
+        for(int i = 0; i < length; i++) {  
+            value += results[i];  
+            results[i] = value;  
+        }  
+        return results;  
+    }  
