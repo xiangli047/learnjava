@@ -1,0 +1,31 @@
+
+题意：对二叉树不断剪掉尾节点然后放进数组里，反复直到全部剪完
+
+核心：技巧是找index，这个index就是最后结果中这个节点所在的list的index，比如4,5,3的index是0， 2的index是1，1的index是2.
+方法跟最大深度类似，从尾部开始，parent的深度就是左右节点最大值+1
+
+public List<List<Integer>> findLeaves(TreeNode root) {
+    List<List<Integer>> result = new ArrayList<List<Integer>>();
+    helper(result, root);
+    return result;
+}
+ 
+// traverse the tree bottom-up recursively
+private int helper(List<List<Integer>> list, TreeNode root){
+    if(root==null)
+        return -1;
+ 
+    int left = helper(list, root.left);
+    int right = helper(list, root.right);
+    int curr = Math.max(left, right)+1;
+ 
+    // the first time this code is reached is when curr==0,
+    //since the tree is bottom-up processed.
+    if(list.size()<=curr){
+        list.add(new ArrayList<Integer>());
+    }
+ 
+    list.get(curr).add(root.val);
+ 
+    return curr;
+}
