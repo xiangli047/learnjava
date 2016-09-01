@@ -1,0 +1,41 @@
+//题意：找到数组中最长的子数组，且子数组满足任意两位都可以整除
+核心：先排序，dp思想，dp[i]表示i位的时候的最长子数组个数，其中一定包括i位。2层循环，外层i从左往右，内层j从外层位置往左。 
+如果dp[i] > dp[j] + 1 且 num[i]%num[j]==0说明j可以被i整除，所以这时候更新dp[i]的值，一直扫到最左边，才能保证i之前所有可能性
+都检查到，这时的dp[i]才是含有i位的最长子数组，但不一定是结果的最长子数组，所以
+需要在循环过程中用另外几个空间来存放最长的子数组，办法是：
+额外的数组idxs保存了每个位之前他可以整除的位，比如在dp[i]最大的条件下i位之前最近可以整数j，那么idxs[i] = j,
+这个数组用以之后回溯找到答案，
+maxIdx用以保存最长子数组最后的节点，用以最终找到答案循环的起始点，
+max保存最长子数组的长度，最后循环的时候知道要找多少次。
+
+
+
+public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> rst = new ArrayList<Integer>();
+        if(nums.length == 0) return rst;
+        int len = nums.length;
+        int[] dp = new int[len];
+        int[] idxs = new int[len];
+        int max = 0, maxIdx = 0;
+        Arrays.sort(nums);
+        
+        for(int i = 0; i < len; i++){
+            for(int j = i; j >= 0; j--){
+                if(nums[i] % nums[j] == 0 && dp[i] < dp[j] + 1){
+                    dp[i] = dp[j] + 1;
+                    idxs[i] = j;
+                }
+            }
+            if(dp[i] > max){
+                max = dp[i];
+                maxIdx = i;
+            }
+        }
+        
+        while(max > 0){
+            max--;
+            rst.add(nums[maxIdx]);
+            maxIdx = idxs[maxIdx];
+        }
+        return rst;
+    }
