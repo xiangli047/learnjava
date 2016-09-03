@@ -1,0 +1,41 @@
+//题意：计算一组排好序的数组的每个数，用公式ax^2 + bx + c，结果也必须是排序的，O(n)时间完成
+核心：2元一次方程是一条抛物线，a > 0的话开口向上两头大， a<0的话开口向下， a= 0的话直线
+基于这点，使用对撞型指针给初始数组左右两头。因为已知排序的，所以若a>0，计算后两头是最大的。 这时就从原始数组两头开始比较
+，a>0的话就取两头计算后的更大值放入结果数组的最后一位，这样反复
+
+public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        int[] rst = new int[nums.length];
+        if(nums.length == 0) return rst;
+        
+        int p1 = 0, p2 = nums.length - 1;
+        int pr = a > 0 ? nums.length - 1 : 0;
+        
+        while(p1 <= p2){
+            int t1 = calc(nums[p1], a,b,c);
+            int t2 = calc(nums[p2], a,b,c);
+            if(a > 0){
+                if(t1 > t2){
+                    rst[pr] = t1;
+                    p1++;
+                }else{
+                    rst[pr] = t2;
+                    p2--;
+                }
+                pr--;
+            }else{
+                if(t1 < t2){
+                    rst[pr] = t1;
+                    p1++;
+                }else{
+                    rst[pr] = t2;
+                    p2--;
+                }
+                pr++;
+            }
+        }
+        return rst;
+    }
+    
+    private int calc(int t,int a, int b, int c){
+        return a * t * t + b * t + c;
+    }
