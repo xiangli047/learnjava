@@ -1,0 +1,28 @@
+//题意： 找一组点，判断是否存在一条平行于y轴的线使得所有点都对那条线存在对称点
+核心：找到最大最小的x轴位置，所以所有对称点的和都应该是max + min， 因为可能存在同x不同y的情况，所以需要map去存各种点
+然后linear时间内就可以找到
+
+public boolean isReflected(int[][] points) {
+        if(points.length == 0 || points[0].length == 0) return true;
+        int len = points.length, max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for(int i = 0; i < len; i++){
+            max = Math.max(max, points[i][0]);
+            min = Math.min(min, points[i][0]);
+            if(!map.containsKey(points[i][0])){
+                map.put(points[i][0], new HashSet<Integer>());
+                map.get(points[i][0]).add(points[i][1]);
+            }else if(!map.get(points[i][0]).contains(points[i][1])){
+                map.get(points[i][0]).add(points[i][1]);
+            }
+        }
+        
+        for(int i = 0; i < len; i++){
+            int reflect = max + min - points[i][0];
+            if(!map.containsKey(reflect) || !map.get(reflect).contains(points[i][1])){
+                return false;
+            }
+        }
+        
+        return true;
+    }
