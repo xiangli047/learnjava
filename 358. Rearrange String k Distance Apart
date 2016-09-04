@@ -1,0 +1,38 @@
+//题意：给一个string和k，重排列数组使得相同字符距离不小于k
+核心：2个数组一个记录元素出现个数，一个保存下一次各个元素可以出现的位置
+
+private int getIndex(int[] count, int[] valid, int index){
+        int rst = -1, max = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < count.length; i++){
+            if(count[i] > 0 && count[i] > max && index >= valid[i]){
+                max = count[i];
+                rst = i;
+            }
+        }
+        
+        return rst;
+    }
+    
+    public String rearrangeString(String str, int k) {
+         if(str.length() == 0 || k < 2) return str;
+         int[] count = new int[26];
+         int[] valid = new int[26];
+         int len = str.length();
+         
+         for(int i = 0; i < len; i++){
+             int index = (int)(str.charAt(i) - 'a');
+             count[index]++;
+         }
+         
+         StringBuilder sb = new StringBuilder();
+         for(int i = 0; i < len; i++){
+             int index = getIndex(count, valid, i);
+             if(index == -1) return "";
+             count[index]--;
+             valid[index] = i + k;
+             sb.append((char)('a' + index));
+         }
+         
+         return sb.toString();
+    }
