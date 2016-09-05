@@ -1,0 +1,39 @@
+//不用treeset的话放数组里用二分法也可以找
+
+
+private TreeSet<Interval> set;
+    /** Initialize your data structure here. */
+    public SummaryRanges() {
+        Comparator<Interval> com = new Comparator<Interval>(){
+            public int compare(Interval a, Interval b){
+                return a.start - b.start;
+            }
+        };
+        
+       set = new TreeSet<Interval>(com);
+    }
+    
+    public void addNum(int val) {
+        Interval curr = new Interval(val, val);
+        Interval floor = set.floor(curr);
+        if(floor != null){
+            if(val <= floor.end){
+                return;
+            }
+            if(val == floor.end + 1){
+                curr.start = floor.start;
+                set.remove(floor);
+            }
+        }
+        Interval higher = set.higher(curr);
+        if(higher != null && val + 1 == higher.start){
+            curr.end = higher.end;
+            set.remove(higher);
+        }
+        
+        set.add(curr);
+    }
+    
+    public List<Interval> getIntervals() {
+        return Arrays.asList(set.toArray(new Interval[0]));
+    }
