@@ -1,0 +1,33 @@
+题意：找到一个string里的最长子string，同时这个子string要满足少于等于k个unique的digit
+使用sliding window的办法，一个map维护digit的出现次数。2个pointers，一个一直走，一个放在开头
+找到元素就往map里放直到map的size到了k，这时候左边的pointer开始走，找到的各个元素出现次数减一，
+直到有一个元素都没了，从map里删掉。然后继续右边的loop，右pointer每次走更新rst
+
+
+public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if(k == 0 || s.length() == 0) return 0;
+        Map<Character, Integer> map = new HashMap<>();
+        int start = 0, rst = 0;
+        for(int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            if(!map.containsKey(c)){
+                map.put(c, 0);
+            }
+            map.put(c, map.get(c) + 1);
+            
+            while(map.size() > k){
+                char dup = s.charAt(start);
+                if(map.get(dup) == 1){
+                    map.remove(dup);
+                }else{
+                    map.put(dup, map.get(dup) - 1);
+                }
+                start++;
+            }
+            
+            rst = Math.max(rst, i - start + 1);
+        }
+        
+        return rst;
+        
+    }
