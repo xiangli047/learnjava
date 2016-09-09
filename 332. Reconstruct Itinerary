@@ -1,0 +1,26 @@
+//图的遍历dfs， 注意数据结构
+
+public List<String> findItinerary(String[][] tickets) {
+        List<String> rst = new ArrayList<>();
+        if(tickets.length == 0) return rst;
+        Map<String, PriorityQueue<String>> map = new HashMap<>();
+        for(String[] str: tickets){
+            if(!map.containsKey(str[0])){
+                map.put(str[0], new PriorityQueue<String>());
+            }
+            map.get(str[0]).add(str[1]);
+        }
+        dfs(map, "JFK", rst);
+        Collections.reverse(rst);
+        return rst;
+    }
+    
+    private void dfs(Map<String, PriorityQueue<String>> map, String from, List<String> rst){
+        System.out.println(from);
+        while(map.containsKey(from) && !map.get(from).isEmpty()){
+             String tmp = map.get(from).poll();
+            dfs(map, tmp, rst);
+        }
+        //System.out.println(from);
+        rst.add(from);
+    }
