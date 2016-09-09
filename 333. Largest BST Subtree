@@ -1,0 +1,32 @@
+//题意：找到含有最多nodes的bst子树
+核心：O(n)的方法需要从底向上，divide&conquer方法。 需要一个class记录node之前的左右边界
+
+class Wrapper{
+        int lower, upper, size;
+        public Wrapper(int size, int lower, int upper){
+            this.lower = lower;
+            this.upper = upper;
+            this.size = size;
+        }
+    }
+    int maxbst = 0;
+    public int largestBSTSubtree(TreeNode root) {
+        dfs(root);
+        return maxbst;
+    }
+    
+    private Wrapper dfs(TreeNode root){
+        if(root == null) return new Wrapper(0, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        Wrapper left = dfs(root.left);
+        Wrapper right = dfs(root.right);
+        
+        if(left.size == -1 || right.size == -1 || left.upper >= root.val || right.lower <= root.val){
+            
+            return new Wrapper(-1, 0, 0);
+        }
+        
+        int size = left.size + right.size + 1;
+        maxbst = Math.max(maxbst, size);
+        
+        return new Wrapper(size, Math.min(left.lower, root.val), Math.max(root.val, right.upper));
+    }
