@@ -1,0 +1,72 @@
+//题意：找到矩阵里一个点到其他建筑的最短距离，中途有障碍物
+//核心：找最短距离之类的用bfs，整体思路是建一个distance的数组，记录每个建筑到各个点的距离， 最后找到最小值即可。
+具体实现，先找到所有建筑的点，然后依次给各个建筑点做bfs，把到各个建筑点的距离累加到distance数组里。
+避免访问重复元素和障碍物的小技巧是：因为有效地是0，先把其他的变成负数，然后bfs的时候搜到的话在当前层加1，所以要用到k,
+如果不想改变grid，可以用copy先
+
+
+public class Solution {
+    int[] mx = {1,0,-1,0}, my = {0, 1, 0, -1};
+    class Tuple{
+        int x;
+        int y;
+        int dist;
+        public Tuple(int x, int y, int dist){
+            this.x = x;
+            this.y = y;
+            this.dist = dist;
+        }
+    }
+    
+    private void bfs(int[][] grid, Tuple root, int[][] distance, int k, int m, int n){
+        LinkedList<Tuple> queue = new LinkedList<>();
+        queue.add(root);
+        
+        while(!queue.isEmpty()){
+            Tuple tmp = queue.poll();
+            distance[tmp.x][tmp.y] += tmp.dist;
+            for(int i = 0; i < 4; i++){
+                int x = tmp.x + mx[i], y = tmp.y + my[i];
+                if(x >= 0 && y >= 0 && x < m && y < n && grid[x][y] == k){
+                    grid[x][y] = k + 1;
+                    queue.add(new Tuple(x, y, tmp.dist + 1));
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    public int shortestDistance(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] distance = new int[m][n];
+        List<Tuple> bd = new ArrayList<Tuple>();
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1){
+                    bd.add(new Tuple(i, j, 0));
+                }
+                grid[i][j] = -grid[i][j];
+            }
+        }
+        
+        for(int k = 0; k < bd.size(); k++){
+            bfs(grid, bd.get(k), distance, k, m, n);
+        }
+        
+        int rst = -1;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == bd.size() && (rst < 0 || distance[i][j] < rst)){
+                    rst = distance[i][j];
+                }
+            }
+        }
+        
+        
+        return rst;
+        
+        
+    }
+}
