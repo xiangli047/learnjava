@@ -1,0 +1,43 @@
+题意：找到一个数组里每个数右边比他小的数的数量，返回这个集合
+核心：1. 可以用二分法，建一个新数组，从右往左循环给的数组，一边搜一边创建新的排序数组，用二分法找到对应插入的位置，位置左边就是比他小的
+2. 创建BST，node类里，sum记录当前node左边的点的数量，dup记录是否自身有重复
+
+public class Solution {
+    class Node{
+            Node left = null;
+            Node right = null;
+            int val, sum, dup = 1;
+            public Node(int v, int s){
+                val = v;
+                sum = s;
+            }
+        }
+    
+    private Node insertNode(Node node, Integer[] rst, int n, int index, int preSum){
+        if(node == null){
+            node = new Node(n, 0);
+            rst[index] = preSum;
+        }else if(n == node.val){
+            node.dup++;
+            rst[index] = preSum + node.sum;
+        }else if(n < node.val){
+            node.sum++;
+            node.left = insertNode(node.left, rst, n, index, preSum);
+        }else{
+            node.right = insertNode(node.right, rst, n, index, preSum + node.dup + node.sum);
+        }
+        return node;
+    }    
+    
+    public List<Integer> countSmaller(int[] nums) {
+        
+        if(nums.length == 0) return new ArrayList<Integer>();
+        Integer[] rst = new Integer[nums.length];
+        Node root = null;
+        for(int i = nums.length - 1; i >=0; i--){
+            root = insertNode(root, rst, nums[i], i, 0);
+        }
+        
+        return Arrays.asList(rst);
+    }
+}
