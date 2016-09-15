@@ -1,0 +1,39 @@
+题意：移除string里重复的字母，同时保证结果的字母顺序跟原来的相对顺序一样而且要尽量小
+核心：用递增栈，维持一个递增栈
+先给元素计数，用来保证最后结果每个都是unique的元素。在维护栈的时候，判断3种情况同时存在可以出栈
+1. 栈不为空
+2. 比栈顶字母小
+3. 栈顶字母的计数不为0，也就是说后面还有
+
+
+public String removeDuplicateLetters(String s) {
+         int[] count = new int[26];
+         Stack<Character> stack = new Stack<>();
+         boolean[] visited = new boolean[26];
+         
+         for(int i = 0; i < s.length(); i++){
+             count[s.charAt(i) - 'a']++;
+         }
+         
+         for(int i = 0; i < s.length(); i++){
+             char c = s.charAt(i);
+             count[c - 'a']--;
+             if(visited[c - 'a']){
+                 continue;
+             }
+             
+             while(!stack.isEmpty() && c < stack.peek() && count[stack.peek() - 'a'] != 0){
+                 visited[stack.pop() - 'a'] = false;
+             }
+             stack.push(c);
+             visited[c - 'a'] = true;
+             
+         }
+         
+         StringBuilder sb = new StringBuilder();
+         while(!stack.isEmpty()){
+             sb.insert(0, stack.pop());
+         }
+         
+         return sb.toString();
+    }
