@@ -2,7 +2,7 @@
 核心：先建立好有向图，bfs的方法是建立indegree数组，每有一门课是需要pre的，就入度加1. 之后通过queue遍历，每次入度0的入q
 dfs的方法用visited数组遍历有向图，遇到的标记visited，如果在每次递归中还遇到了visited了，说明有环，则return false
 
-
+//bfs
 public boolean canFinish(int numCourses, int[][] prerequisites) {
         List<Set<Integer>> courses = new ArrayList<>();
         int[] indegree = new int[numCourses];
@@ -39,4 +39,37 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
         }
         System.out.println(count);
         return count == numCourses;
+    }
+    
+    //dfs
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList[] graph = new ArrayList[numCourses];
+            for(int i=0;i<numCourses;i++)
+                graph[i] = new ArrayList();
+                
+            boolean[] visited = new boolean[numCourses];
+            for(int i=0; i<prerequisites.length;i++){
+                graph[prerequisites[i][1]].add(prerequisites[i][0]);
+            }
+
+            for(int i=0; i<numCourses; i++){
+                if(!dfs(graph,visited,i))
+                    return false;
+            }
+            return true;
+    }
+    
+    private boolean dfs(ArrayList[] graph, boolean[] visited, int course){
+        if(visited[course])
+                return false;
+            else
+                visited[course] = true;;
+
+            for(int i=0; i<graph[course].size();i++){
+                if(!dfs(graph,visited,(int)graph[course].get(i)))
+                    return false;
+            }
+            visited[course] = false;
+            return true;
     }
