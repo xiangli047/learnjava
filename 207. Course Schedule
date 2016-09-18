@@ -1,0 +1,42 @@
+//题意：判断给的课程是否能完成，也就是图里是否有回路
+核心：先建立好有向图，bfs的方法是建立indegree数组，每有一门课是需要pre的，就入度加1. 之后通过queue遍历，每次入度0的入q
+dfs的方法用visited数组遍历有向图，遇到的标记visited，如果在每次递归中还遇到了visited了，说明有环，则return false
+
+
+public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<Set<Integer>> courses = new ArrayList<>();
+        int[] indegree = new int[numCourses];
+        int len = prerequisites.length;
+        
+        for(int i = 0; i < numCourses; i++){
+            courses.add(new HashSet<Integer>());
+        }
+        for(int i = 0; i < len; i++){
+            if(!courses.get(prerequisites[i][1]).contains(prerequisites[i][0])){
+                courses.get(prerequisites[i][1]).add(prerequisites[i][0]);
+                indegree[prerequisites[i][0]]++;
+            }
+            
+        }
+        
+        LinkedList<Integer> q = new LinkedList<>();
+        
+        for(int i = 0; i < numCourses; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        int count = 0;
+        while(!q.isEmpty()){
+            int pre = q.poll();
+            count++;
+            Set<Integer> tmp = courses.get(pre);
+            for(int i : tmp){
+                if(--indegree[i] == 0){
+                    q.add(i);
+                }
+            }
+        }
+        System.out.println(count);
+        return count == numCourses;
+    }
