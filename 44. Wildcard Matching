@@ -1,0 +1,40 @@
+//题意：2个string match
+核心：2个要点，一是要消除重复的*，因为会占很多不必要的空间。 二是注意pattern开头是*的例子，这时候需要赋值一个true
+
+
+private String removeDupStar(String s){
+         StringBuilder sb = new StringBuilder();
+         for(int i = 0; i < s.length(); i++){
+             if(s.charAt(i) != '*' || i == 0 || s.charAt(i - 1) != '*'){
+                 sb.append(s.charAt(i));
+             }
+         }
+         
+         return sb.toString();
+         
+     }
+    public boolean isMatch(String s, String p) {
+        String pattern = removeDupStar(p);
+        int lenp = pattern.length();
+        int lens = s.length();
+        if(lenp == 0 && lens == 0) return true;
+        
+        boolean[][] dp = new boolean[lens+1][lenp+1];
+        dp[0][0] = true;
+        if(lenp > 0 && pattern.charAt(0) == '*'){
+            dp[0][1] = true;
+        }
+        
+        for(int i = 1; i <= lens; i++){
+            for(int j = 1; j <= lenp; j++){
+                if(s.charAt(i - 1) == pattern.charAt(j - 1) || pattern.charAt(j - 1) == '?'){
+                    dp[i][j] = dp[i - 1][j - 1];
+                }else if(pattern.charAt(j - 1) == '*'){
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+                }
+                
+            }
+        }
+        
+        return dp[lens][lenp];
+    }
