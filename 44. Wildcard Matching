@@ -1,7 +1,38 @@
 //题意：2个string match
-核心：2个要点，一是要消除重复的*，因为会占很多不必要的空间。 二是注意pattern开头是*的例子，这时候需要赋值一个true
+核心：dp做法的话2个要点，一是要消除重复的*，因为会占很多不必要的空间。 二是注意pattern开头是*的例子，这时候需要赋值一个true
 
+指针做法的话主要是遇到了*之后要保存当前*的index和i位，因为之后i不动，pattern指针继续移动直到匹配到了i位再动，遇到连续的*就连续更新指针
+最后结束了判断下是否是*结尾，成功match的条件是pattern指针必须走完string再往后一位
+pointers
+int i = 0;
+	int j = 0;
+	int starIndex = -1;
+	int iIndex = -1;
+ 
+	while (i < s.length()) {
+		if (j < p.length() && (p.charAt(j) == '?' || p.charAt(j) == s.charAt(i))) {
+			++i;
+			++j;
+		} else if (j < p.length() && p.charAt(j) == '*') {
+			starIndex = j;		
+			iIndex = i;
+			j++;
+		} else if (starIndex != -1) {
+			j = starIndex + 1;
+			i = iIndex+1;
+			iIndex++;
+		} else {
+			return false;
+		}
+	}
+ 
+	while (j < p.length() && p.charAt(j) == '*') {
+		++j;
+	}
+ 
+	return j == p.length();
 
+dp
 private String removeDupStar(String s){
          StringBuilder sb = new StringBuilder();
          for(int i = 0; i < s.length(); i++){
