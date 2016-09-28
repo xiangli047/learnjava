@@ -1,0 +1,35 @@
+//bfs2种方法，都是先把gate放进q里
+第一种naive的把gate先放一个，然后从这个gate开始做bfs，如果新到的节点比当前节点+1大，那就更新新到的节点为当前节点+1，然后新节点放进q里
+这样每次gate都要遍历并看情况更新所有房间.复杂度worst case为n^4
+第二种，先把所有gate放进q里，然后以各个gate的点开始作为传染源向周围传染，如果是房间就更新当前节点值+1。 因为是gate同步走，所以
+先遇到空的房间肯定是最近距离。这种的复杂度是n^2
+
+
+int[][] mv = {{0, 1},{1, 0},{0, -1},{-1, 0}};
+    public void wallsAndGates(int[][] rooms) {
+        int m = rooms.length;
+        if(m == 0) return;
+        int n = rooms[0].length;
+        LinkedList<Integer> q = new LinkedList<>();
+        
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(rooms[i][j] == 0)
+                    q.offer(i*n + j);
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int tmp = q.poll();
+            int tx = tmp/n, ty = tmp%n;
+            for(int i = 0; i < 4; i++){
+                int mx = tx + mv[i][0];
+                int my = ty + mv[i][1];
+                if(mx >= 0 && my >= 0 && mx < m && my < n && rooms[mx][my] == Integer.MAX_VALUE){
+                    rooms[mx][my] = rooms[tx][ty] + 1;
+                    q.add(mx * n + my);
+                }
+            }
+        }
+        
+    }
