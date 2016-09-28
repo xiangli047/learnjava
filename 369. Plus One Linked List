@@ -1,0 +1,23 @@
+//reverse的就不说了
+下面这个是inplace的，就是2个pointer，先找到最后一个不是9的那一位，然后把他加1，他之后的改成0，因为他之后都必须是9.
+需要dummy判断要不要进位，如果dummy为1表示整个链表都是9，就进位1
+
+
+
+ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode lastNotNine = dummy, node = head;
+        
+        while (node != null) {
+            if (node.val != 9) {
+                lastNotNine = node;
+            }
+            node = node.next;
+        }
+        lastNotNine.val++;
+        node = lastNotNine.next;
+        while (node != null) {
+            node.val = 0;
+            node = node.next;
+        }
+        return dummy.val == 1 ? dummy : dummy.next;
