@@ -1,0 +1,21 @@
+题意：2个arraylist，按1212的顺序输出他们的各个元素直到结束
+把2个arraylist放进queue里，一个取出来后放回queue的尾巴上，这样可以很方便的用到k个array上
+
+
+LinkedList<Iterator> list;
+    public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+        list = new LinkedList<Iterator>();
+        if(!v1.isEmpty()) list.add(v1.iterator());
+        if(!v2.isEmpty()) list.add(v2.iterator());
+    }
+
+    public int next() {
+        Iterator poll = list.remove();
+        int result = (Integer)poll.next();
+        if(poll.hasNext()) list.add(poll);
+        return result;
+    }
+
+    public boolean hasNext() {
+        return !list.isEmpty();
+    }
