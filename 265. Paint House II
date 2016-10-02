@@ -1,0 +1,29 @@
+题意：用k种颜色涂房子，保证相邻的不为一样的color
+nk的解法需要3个变量保存之前上一轮房子涂的颜色的最小值和次小值还有index。保存相邻的颜色不一样
+
+public int minCostII(int[][] costs) {
+        int n = costs.length;
+        if(n == 0) return 0;
+        int k = costs[0].length;
+        int[][] dp = new int[n][k];
+        int prevMin = 0, prevSec = 0, preIdx = -1;
+        for(int i = 0; i < n; i++){
+            int curMin = Integer.MAX_VALUE, curSec = Integer.MAX_VALUE, curIdx = -1;
+            for(int j = 0; j < k; j++){
+                dp[i][j] = costs[i][j] + (preIdx == j ? prevSec : prevMin);
+                if(dp[i][j] < curMin){
+                    curSec = curMin;
+                    curMin = dp[i][j];
+                    curIdx = j;
+                }else if(dp[i][j] < curSec){
+                    curSec = dp[i][j];
+                }
+                
+            }
+            prevMin = curMin;
+            prevSec = curSec;
+            preIdx = curIdx;
+        }
+        
+        return prevMin;
+    }
