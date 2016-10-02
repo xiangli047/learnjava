@@ -1,0 +1,70 @@
+topo sort的问题
+节点的顺序是由string和下一个string的第一个不同元素产生的，先用2个map建立好图，一个记录节点关系，一个记录入度。 最后按顺序把入度为0的依次放进结果里
+为了验证输入的有效性，最后需要check入度的size是否和结果size一致，表示每个字母都用到了，不然返回“”
+
+
+
+Map<Character, Set<Character>> orders = new HashMap<>();
+        Map<Character, Integer> indegree = new HashMap<>();
+        
+        for(String str : words){
+            for(int i = 0; i < str.length(); i++){
+                indegree.put(str.charAt(i), 0);
+            }
+        }
+        
+        for(int i = 0; i < words.length - 1; i++){
+            String cur = words[i];
+            String nxt = words[i + 1];
+            if(cur.length() > nxt.length() && nxt.equals(cur.substring(0, nxt.length()))){
+                return "";
+            }
+            int len = Math.min(cur.length(), nxt.length());
+            for(int j = 0; j < len; j++){
+                char c1 = cur.charAt(j);
+                char c2 = nxt.charAt(j);
+                if(c1 != c2){
+                    if(!orders.containsKey(c1)){
+                        orders.put(c1, new HashSet<>());
+                    }
+                    if(!orders.get(c1).contains(c2)){
+                        orders.get(c1).add(c2);
+                        indegree.put(c2, indegree.get(c2) + 1);
+                    }
+                    break;
+                }
+                
+            }
+        }
+        
+        LinkedList<Character> q = new LinkedList<>();
+        
+        for(Map.Entry<Character, Integer> entry : indegree.entrySet()){
+            if(entry.getValue() == 0){
+                q.offer(entry.getKey());
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while(!q.isEmpty()){
+            char c = q.poll();
+            //System.out.println(c);
+            sb.append(c);
+            if(orders.containsKey(c)){
+                Set<Character> tmp = orders.get(c);
+                if(!tmp.isEmpty()){
+                    for(char cur : tmp){
+                        indegree.put(cur, indegree.get(cur) - 1);
+                        if(indegree.get(cur) == 0){
+                            //indegree.remove(cur);
+                            q.offer(cur);
+                        }
+                    }
+                }
+            }
+        }
+        if(sb.length()!=indegree.size()){
+            System.out.println(sb.length() + "--" + indegree.size());
+            return "";  
+        } 
+        return sb.toString();
